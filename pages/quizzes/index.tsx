@@ -28,8 +28,8 @@ interface Choice {
 const QuizList = () => {
   const { loading, error, data } = useQuery(QUERY);
 
-  if (loading) return 'Loading...';
-  if (error) return `index Error! ${error.message}`;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>`index Error! ${error.message}`</div>;
 
   return (
     <div>

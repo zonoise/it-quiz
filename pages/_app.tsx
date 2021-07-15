@@ -1,9 +1,12 @@
-import '../styles/globals.css';
+import 'tailwindcss/tailwind.css';
+
 import type { AppProps } from 'next/app';
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
 
+const graphUrl = process.env.NEXT_PUBLIC_GRAPHQL;
+
 const httpLink = new HttpLink({
-  uri: process.env.GRAPHQL,
+  uri: graphUrl,
 });
 
 const cache = new InMemoryCache();

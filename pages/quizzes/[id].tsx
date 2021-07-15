@@ -1,11 +1,16 @@
 import { gql, useQuery } from '@apollo/client';
 import { NextPage } from 'next';
-
+import { Navbar } from '../../components/navbar';
+import { Choice } from '../../types/types';
+import { ChoiceButton } from '../../components/choiceButton';
+import { Footer } from '../../components/footer';
 const QUERY = gql`
   query quiz($id: String!) {
     quiz(id: $id) {
       id
       title
+      quizNumber
+      srcExam
       choices {
         index
         body
@@ -13,11 +18,6 @@ const QUERY = gql`
     }
   }
 `;
-
-type Choice = {
-  index: string;
-  body: string;
-};
 
 type Params = {
   params: {
@@ -42,20 +42,42 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
   });
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error! ${error.message}</div>;
+  if (error) {
+    return (
+      <div>
+        <div> Error! ${error.message}</div>
+        <div> Error! ${error.stack}</div>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h1>{data.quiz.title}</h1>
-      <h3>{id}</h3>
-      {data.quiz.choices.map((choice: Choice) => {
-        return (
-          <div key={choice.index}>
-            <p>{choice.index}</p>
-            <p>{choice.body}</p>
+    <div className="flex flex-col min-h-screen bg-yellow-300">
+      <Navbar />
+
+      <div className="container mx-auto flex-grow">
+        {/* flex-gorw の働きでfooterを下に押し下げ */}
+
+        {/* 問題文 */}
+        <div className="bg-gray-50">
+          <div className="p-2">
+            <span className="text-2xl">問{data.quiz.quizNumber}</span>
+            <span className="text-xl">{data.quiz.title}</span>
           </div>
-        );
-      })}
+        </div>
+
+        {/* 選択肢 */}
+        <div className="bg-red-50 grid grid-cols-2 gap-2">
+          {data.quiz.choices.map((choice: Choice) => {
+            return (
+                <ChoiceButton choice={choice} />
+            );
+          })}
+        </div>
+      </div>
+      <div>出典{data.quiz.srcExam}</div>
+
+      <Footer />
     </div>
   );
 };
