@@ -67,15 +67,16 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
         </div>
 
         {/* 選択肢 */}
-        <div className="bg-red-50 grid grid-cols-2 gap-2">
+        <div className="bg-red-50 grid  sm:grid-cols-2 gap-2">
           {data.quiz.choices.map((choice: Choice) => {
             return (
-                <ChoiceButton choice={choice} />
+                <ChoiceButton key={choice.index} choice={choice} />
             );
           })}
         </div>
+        <div>出典{data.quiz.srcExam}</div>
+
       </div>
-      <div>出典{data.quiz.srcExam}</div>
 
       <Footer />
     </div>
