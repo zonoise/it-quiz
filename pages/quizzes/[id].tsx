@@ -4,6 +4,9 @@ import { Navbar } from '../../components/navbar';
 import { Choice } from '../../types/types';
 import { ChoiceButton } from '../../components/choiceButton';
 import { Footer } from '../../components/footer';
+import { useState } from 'react';
+import { Modal } from '../../components/modal';
+
 const QUERY = gql`
   query quiz($id: String!) {
     quiz(id: $id) {
@@ -11,6 +14,7 @@ const QUERY = gql`
       title
       quizNumber
       srcExam
+      answer
       choices {
         index
         body
@@ -41,6 +45,24 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
     variables: { id },
   });
 
+  //正解モーダル
+  const [isOpenCorrectAnswer, setOpenCorrectAnswer] = useState(false);
+
+  //不正解モーダル
+  const [isOpenInCorrectAnswer, setOpenInCorrectAnswer] = useState(false);
+
+  const onChoiceButtonClick = (index: string, answer: string) => {
+    if (index === answer) {
+      setOpenCorrectAnswer(true);
+    }else{
+      setOpenInCorrectAnswer(true);
+    }
+  };
+
+  const closeModal = () =>{
+    setOpenCorrectAnswer(false);
+  }
+
   if (loading) return <div>Loading...</div>;
   if (error) {
     return (
@@ -55,6 +77,14 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
     <div className="flex flex-col min-h-screen bg-yellow-300">
       <Navbar />
 
+      {isOpenCorrectAnswer &&
+        <Modal title={'正解'} closeFunc={closeModal}/>
+      }
+
+      {isOpenInCorrectAnswer &&
+        <Modal title={'不正解'} closeFunc={()=>{setOpenInCorrectAnswer(false)}}/>
+      }
+
       <div className="container mx-auto flex-grow">
         {/* flex-gorw の働きでfooterを下に押し下げ */}
 
@@ -68,14 +98,19 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
 
         {/* 選択肢 */}
         <div className="bg-red-50 grid  sm:grid-cols-2 gap-2">
-          {data.quiz.choices.map((choice: Choice) => {
+          {data.quiz.choices.map(function (choice: Choice) {
             return (
-                <ChoiceButton key={choice.index} choice={choice} />
+              <ChoiceButton
+                key={choice.index}
+                choice={choice}
+                onClick={() => {
+                  onChoiceButtonClick(choice.index, data.quiz.answer);
+                }}
+              />
             );
           })}
         </div>
         <div>出典{data.quiz.srcExam}</div>
-
       </div>
 
       <Footer />
