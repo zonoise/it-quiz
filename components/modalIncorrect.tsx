@@ -1,13 +1,24 @@
-export const Modal: React.FC<{ color?: string; closeFunc: () => void }> = ({
-  color,
-  closeFunc,
-  children,
-}) => {
-  const base =
-    'bg-gradient-to-b w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto animate-correct-answer ';
+export const ModalInCorrect: React.FC<{ closeFunc: () => void }> = ({ closeFunc, children }) => {
+  const boxStyle =
+    'from-red-100 to-white bg-gradient-to-b w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto animate-incorrect-answer';
 
-  const boxStyle = base + ' ' + color;
-
+  const title = (
+    <>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-9 w-9"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fillRule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+          clipRule="evenodd"
+        />
+      </svg>
+      不正解
+    </>
+  );
   return (
     <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div className="absolute w-full h-full bg-gray-900 opacity-70"></div>
@@ -17,14 +28,14 @@ export const Modal: React.FC<{ color?: string; closeFunc: () => void }> = ({
           {/* <!--Title--> */}
           <div
             className="flex justify-center items-center          
-          h-24 text-4xl  font-extrabold font-sans text-green-800 "
+          h-24 text-4xl  font-extrabold font-sans text-black-800 "
           >
-            {children}
+            {title}
           </div>
 
           {/* <!--Footer--> */}
           <div className="flex justify-between pb-2">
-            <button className="block w-32 mx-3 p-3 text-sm bg-green-300 rounded text-black hover:bg-green-400">
+            <button className="block w-24 mx-2 p-3 text-sm bg-red-300 rounded text-black hover:bg-red-400">
               メモ
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +53,7 @@ export const Modal: React.FC<{ color?: string; closeFunc: () => void }> = ({
               </svg>
             </button>
 
-            <button className="w-48 mx-3 p-3  text-xl bg-green-300 rounded  text-black  hover:bg-green-400">
+            <button className="w-48  flex-grow  mx-1 p-3  text-xl bg-red-300 rounded  text-black  hover:bg-red-400">
               次の問題
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +72,7 @@ export const Modal: React.FC<{ color?: string; closeFunc: () => void }> = ({
               onClick={() => {
                 closeFunc();
               }}
-              className="block w-36 mx-3 text-sm bg-green-300 p-3 rounded text-black hover:bg-green-400"
+              className="block w-24 mx-2 text-sm bg-red-300 p-3 rounded text-black hover:bg-red-400"
             >
               閉じる
               <svg
