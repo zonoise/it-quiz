@@ -7,6 +7,7 @@ import { Footer } from '../../components/footer';
 import { useState } from 'react';
 import { ModalCorrect } from '../../components/modalCorrect';
 import { ModalInCorrect } from '../../components/modalIncorrect';
+import { useQuizzesStoreage } from '../../hooks/useQuizzesStoreage';
 
 const QUERY = gql`
   query quiz($id: String!) {
@@ -41,10 +42,14 @@ export const getServerSideProps = async ({ params }: Params) => {
   };
 };
 
+const KEY = 'QUIZ_BOOKMARK';
+
 const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
   const { loading, error, data } = useQuery(QUERY, {
     variables: { id },
   });
+
+  const [quizzes,, addQuiz, ] = useQuizzesStoreage([], KEY);
 
   //正解モーダル
   const [isOpenCorrectAnswer, setOpenCorrectAnswer] = useState(false);
@@ -74,9 +79,9 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
     <div className="flex flex-col min-h-screen bg-yellow-300">
       <Navbar />
 
-      {isOpenCorrectAnswer && <ModalCorrect closeFunc={() => setOpenCorrectAnswer(false)}/>}
+      {isOpenCorrectAnswer && <ModalCorrect closeFunc={() => setOpenCorrectAnswer(false)} />}
 
-      {isOpenInCorrectAnswer && <ModalInCorrect closeFunc={() => setOpenInCorrectAnswer(false)}/>}
+      {isOpenInCorrectAnswer && <ModalInCorrect quiz={data.quiz} bookMarkFunc={addQuiz} closeFunc={() => setOpenInCorrectAnswer(false)} />}
 
       <div className="container mx-auto flex-grow">
         {/* flex-gorw の働きでfooterを下に押し下げ */}

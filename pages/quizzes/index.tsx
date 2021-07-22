@@ -1,8 +1,10 @@
 import { useQuery, gql } from '@apollo/client';
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Navbar } from '../../components/navbar';
+import { useQuizzesStoreage } from '../../hooks/useQuizzesStoreage';
+import { Quiz } from '../../types/types';
 
 const QUERY = gql`
   query {
@@ -14,25 +16,12 @@ const QUERY = gql`
   }
 `;
 
-interface Quiz {
-  id: string;
-  quizNumber: number;
-  title: string;
-  choices: [Choice];
-  srcExam: string;
-}
+const KEY = 'QUIZ_CURRENT';
 
-interface Choice {
-  index: string;
-  body: string;
-}
 const QuizList: React.FC<{ quizzesProp: Quiz[] }> = ({ quizzesProp }) => {
-  const [quizzes, setQuizzes] = useState<Quiz[]>(quizzesProp);
+  // const [quizzes, setQuizzes] = useState<Quiz[]>(quizzesProp);
 
-  const removeQuiz = (id: string) => {
-    const q = quizzes.filter((quiz) => quiz.id !== id);
-    setQuizzes(q);
-  };
+  const [quizzes, removeQuiz, addQuiz, addQuizzes] = useQuizzesStoreage(quizzesProp, KEY);
 
   return (
     <div>
@@ -45,7 +34,7 @@ const QuizList: React.FC<{ quizzesProp: Quiz[] }> = ({ quizzesProp }) => {
           </Link>
           <button
             onClick={() => {
-              removeQuiz(quiz.id);
+              removeQuiz(quiz);
             }}
           >
             button
