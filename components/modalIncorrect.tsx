@@ -1,6 +1,10 @@
-import { Quiz } from "../types/types";
+import { Quiz } from '../types/types';
 
-export const ModalInCorrect: React.FC<{ quiz:Quiz,  closeFunc: () => void , bookMarkFunc:(quiz:Quiz)=>void }> = ({ quiz, closeFunc,bookMarkFunc, children }) => {
+export const ModalInCorrect: React.FC<{
+  quiz: Quiz;
+  closeFunc: () => void;
+  bookMarkFunc: (quiz: Quiz) => void;
+}> = ({ quiz, closeFunc, bookMarkFunc, children }) => {
   const boxStyle =
     'from-red-100 to-white bg-gradient-to-b w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto animate-incorrect-answer';
 
@@ -37,12 +41,13 @@ export const ModalInCorrect: React.FC<{ quiz:Quiz,  closeFunc: () => void , book
 
           {/* <!--Footer--> */}
           <div className="flex justify-between pb-2">
-            <button 
-            onClick={()=>{
-              bookMarkFunc(quiz);
-              closeFunc();
-            }}
-            className="block w-24 mx-2 p-3 text-sm bg-red-300 rounded text-black hover:bg-red-400">
+            <button
+              onClick={() => {
+                bookMarkFunc(quiz);
+                closeFunc();
+              }}
+              className="block w-24 mx-2 p-3 text-sm bg-red-300 rounded text-black hover:bg-red-400"
+            >
               メモ
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -7,6 +7,9 @@ export const Navbar = () => {
       <Link href={`/quizzes/`} passHref>
         <button className="w-16">問題一覧</button>
       </Link>
+      <Link href={`/bookmarks/`} passHref>
+        <button className="w-16">お気に入り</button>
+      </Link>
     </header>
   );
 };

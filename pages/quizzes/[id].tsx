@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { ModalCorrect } from '../../components/modalCorrect';
 import { ModalInCorrect } from '../../components/modalIncorrect';
 import { useQuizzesStoreage } from '../../hooks/useQuizzesStoreage';
+import { NextQuizButton } from '../../components/nextQuizButton';
 
 const QUERY = gql`
   query quiz($id: String!) {
@@ -49,7 +50,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
     variables: { id },
   });
 
-  const [quizzes,, addQuiz, ] = useQuizzesStoreage([], KEY);
+  const [, , addQuiz] = useQuizzesStoreage([], KEY);
 
   //正解モーダル
   const [isOpenCorrectAnswer, setOpenCorrectAnswer] = useState(false);
@@ -81,7 +82,13 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
 
       {isOpenCorrectAnswer && <ModalCorrect closeFunc={() => setOpenCorrectAnswer(false)} />}
 
-      {isOpenInCorrectAnswer && <ModalInCorrect quiz={data.quiz} bookMarkFunc={addQuiz} closeFunc={() => setOpenInCorrectAnswer(false)} />}
+      {isOpenInCorrectAnswer && (
+        <ModalInCorrect
+          quiz={data.quiz}
+          bookMarkFunc={addQuiz}
+          closeFunc={() => setOpenInCorrectAnswer(false)}
+        />
+      )}
 
       <div className="container mx-auto flex-grow">
         {/* flex-gorw の働きでfooterを下に押し下げ */}
@@ -109,6 +116,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
           })}
         </div>
         <div>出典{data.quiz.srcExam}</div>
+        <NextQuizButton id={id} />
       </div>
 
       <Footer />

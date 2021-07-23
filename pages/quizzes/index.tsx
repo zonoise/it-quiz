@@ -1,11 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
-import { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
+import React from 'react';
 import { Navbar } from '../../components/navbar';
-import { useQuizzesStoreage } from '../../hooks/useQuizzesStoreage';
-import { Quiz } from '../../types/types';
-
+import { QuizList } from '../../components/quizList';
 const QUERY = gql`
   query {
     quizzes {
@@ -18,33 +14,6 @@ const QUERY = gql`
 
 const KEY = 'QUIZ_CURRENT';
 
-const QuizList: React.FC<{ quizzesProp: Quiz[] }> = ({ quizzesProp }) => {
-  // const [quizzes, setQuizzes] = useState<Quiz[]>(quizzesProp);
-
-  const [quizzes, removeQuiz, addQuiz, addQuizzes] = useQuizzesStoreage(quizzesProp, KEY);
-
-  return (
-    <div>
-      {quizzes.map((quiz: Quiz) => (
-        <div key={quiz.id}>
-          {quiz.quizNumber}
-          {quiz.title}
-          <Link href={`/quizzes/${encodeURIComponent(quiz.id)}`} passHref>
-            <button className="w-16 bg-yellow-300 rounded-xl">{quiz.quizNumber}</button>
-          </Link>
-          <button
-            onClick={() => {
-              removeQuiz(quiz);
-            }}
-          >
-            button
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const QuizListPage = () => {
   const { loading, error, data } = useQuery(QUERY);
 
@@ -55,7 +24,7 @@ const QuizListPage = () => {
     <div>
       <Navbar />
       <div>
-        <QuizList quizzesProp={data.quizzes} />
+        <QuizList quizzesProp={data.quizzes} storageKey={KEY} />
       </div>
     </div>
   );
