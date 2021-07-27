@@ -1,9 +1,11 @@
+import React from 'react';
+
 export const ModalCorrect: React.FC<{ closeFunc: () => void }> = ({ closeFunc, children }) => {
   const boxStyle =
     'bg-gradient-to-b w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto animate-correct-answer from-green-100 to-white';
 
   const title = (
-    <>
+    <React.Fragment>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-9 w-9"
@@ -17,7 +19,7 @@ export const ModalCorrect: React.FC<{ closeFunc: () => void }> = ({ closeFunc, c
         />
       </svg>
       正解
-    </>
+    </React.Fragment>
   );
 
   return (

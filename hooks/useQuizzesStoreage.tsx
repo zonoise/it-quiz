@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Quiz } from '../types/types';
 
-export const useQuizzesStoreage = (
-  initialQuizzes: Quiz[],
-  key: string,
-): [Quiz[], (q: Quiz) => void, (q: Quiz) => void, (q: Quiz[]) => void] => {
-  const [quizzes, setQuizzes] = useState<Quiz[]>(initialQuizzes);
+export type useQuizzesStoreageReturnType = [
+  Quiz[],
+  (q: Quiz) => void,
+  (q: Quiz) => void,
+  (q: Quiz[]) => void,
+];
+
+export const useQuizzesStoreage = (key: string): useQuizzesStoreageReturnType => {
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
 
   useEffect(() => {
+    //load from localStorage
     const quizzesStr = localStorage.getItem(key);
     const quizzesList: Quiz[] = quizzesStr ? JSON.parse(quizzesStr) : [];
     setQuizzes(quizzesList);
   }, []);
 
   useEffect(() => {
+    //save to localStorage
     localStorage.setItem(key, JSON.stringify(quizzes));
   }, [quizzes]);
 
