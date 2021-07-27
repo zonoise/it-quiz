@@ -1,3 +1,4 @@
+import React from 'react';
 import { Quiz } from '../types/types';
 
 export const ModalInCorrect: React.FC<{

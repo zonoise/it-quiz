@@ -1,16 +1,12 @@
 import { Quiz } from '../types/types';
 import { useQuizzesStoreage } from '../hooks/useQuizzesStoreage';
 import Link from 'next/link';
+import React from 'react';
 
-export const QuizList: React.FC<{ quizzesProp: Quiz[]; storageKey: string }> = ({
-  quizzesProp,
-  storageKey,
-}) => {
-  const [quizzes, , ,] = useQuizzesStoreage(quizzesProp, storageKey);
-
+export const QuizList: React.FC<{ quizzesProp: Quiz[] }> = ({ quizzesProp }) => {
   return (
     <div>
-      {quizzes.map((quiz: Quiz) => (
+      {quizzesProp.map((quiz: Quiz) => (
         <div key={quiz.id}>
           {quiz.quizNumber}
           {quiz.title}

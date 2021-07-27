@@ -1,3 +1,4 @@
+import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { NextPage } from 'next';
 import { Navbar } from '../../components/navbar';
@@ -50,7 +51,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ id }) => {
     variables: { id },
   });
 
-  const [, , addQuiz] = useQuizzesStoreage([], KEY);
+  const [, , addQuiz] = useQuizzesStoreage(KEY);
 
   //正解モーダル
   const [isOpenCorrectAnswer, setOpenCorrectAnswer] = useState(false);

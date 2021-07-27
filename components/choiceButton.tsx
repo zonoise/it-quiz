@@ -1,3 +1,4 @@
+import React from 'react';
 import { Choice } from '../types/types';
 
 export const ChoiceButton: React.FC<{ choice: Choice; onClick: any }> = ({ choice, onClick }) => {
