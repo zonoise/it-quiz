@@ -25,8 +25,13 @@ const QuizListPage = () => {
   return (
     <div className="">
       <Navbar />
-      <div className="">
-        <QuizList quizzesProp={data.quizzes} />
+      <h1 className="h-16 text-2xl font-semibold flex justify-center items-center bg-white text-gray-800 tracking-widest shadow">
+        問題一覧
+      </h1>
+      <div className="flex flex-col items-center ">
+        <div className="w-full max-w-screen-md">
+          <QuizList quizzesProp={data.quizzes} />
+        </div>
       </div>
       <Footer />
     </div>
