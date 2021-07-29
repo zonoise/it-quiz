@@ -12,11 +12,21 @@ interface Params extends ParsedUrlQuery {
   tag: string;
 }
 
-export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const tags = ['aa', 'bb', 'cc'];
+const query_tags = gql`
+  query {
+    tags {
+      slug
+    }
+  }
+`;
 
-  const paramsList = tags.map((tag) => {
-    return { params: { tag: tag } };
+export const getStaticPaths: GetStaticPaths<Params> = async () => {
+  const { data } = await client.query<{ tags: [{ slug: string }] }>({
+    query: query_tags,
+  });
+
+  const paramsList = data.tags.map((tag) => {
+    return { params: { tag: tag.slug } };
   });
 
   return {
@@ -29,6 +39,7 @@ interface PageProps {
   tag: string;
   quizList: Quiz[];
 }
+
 const query_quizzes = gql`
   query findQuizzesByTags($tags: [String!]!) {
     findQuizzesByTags(tags: $tags) {
