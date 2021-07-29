@@ -10,4 +10,5 @@ export type Quiz = {
   srcExam: string;
   answer: string;
   choices: Choice[];
+  tags?: string[];
 };

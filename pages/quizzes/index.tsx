@@ -1,13 +1,17 @@
 import { useQuery, gql } from '@apollo/client';
 import React from 'react';
+import { Footer } from '../../components/footer';
 import { Navbar } from '../../components/navbar';
 import { QuizList } from '../../components/quizList';
 export const QUIZZES_QUERY = gql`
   query {
     quizzes {
-      quizNumber
       id
       title
+      quizNumber
+      srcExam
+      answer
+      tags
     }
   }
 `;
@@ -19,11 +23,12 @@ const QuizListPage = () => {
   if (error) return <div>`index Error! ${error.message}`</div>;
 
   return (
-    <div>
+    <div className="">
       <Navbar />
-      <div>
+      <div className="">
         <QuizList quizzesProp={data.quizzes} />
       </div>
+      <Footer />
     </div>
   );
 };

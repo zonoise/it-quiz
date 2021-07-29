@@ -11,7 +11,7 @@ const httpLink = new HttpLink({
 
 const cache = new InMemoryCache();
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   link: httpLink,
   cache,
 });
