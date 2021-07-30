@@ -12,3 +12,10 @@ export type Quiz = {
   choices: Choice[];
   tags?: string[];
 };
+
+export type Exam = {
+  id: string;
+  title: string;
+  slug: string;
+  sort: number;
+};
