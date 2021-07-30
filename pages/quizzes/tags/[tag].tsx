@@ -60,14 +60,12 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async ({ params
   });
 
   if (!data || !data.findQuizzesByTags) {
-    console.log(data);
     return {
       props: { tag: tag, quizList: [] },
       revalidate: 1,
     };
   }
 
-  console.log(data.findQuizzesByTags);
   const quizList = data.findQuizzesByTags;
 
   return {

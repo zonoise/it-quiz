@@ -7,6 +7,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { Quiz } from '../../../types/types';
 import { queryQuizzesByExam } from '../../../query/queryQuizzesByExam';
 import { queryExamBySlug, queryExams } from '../../../query/queryExams';
+import { useRouter } from 'next/dist/client/router';
 
 interface Params extends ParsedUrlQuery {
   slug: string;
@@ -32,6 +33,10 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 };
 
 export const getStaticProps: GetStaticProps<PageProps, Params> = async ({ params }) => {
+  if (params === undefined) {
+    throw new Error('exams/[slug] getStaticProps params undefined');
+  }
+
   const result = await queryExamBySlug(params.slug);
   const title = result.data.examBySlug.title || '';
 
@@ -53,6 +58,11 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async ({ params
 };
 
 const ExamSlugPage: NextPage<PageProps> = ({ slug, quizzes, title }) => {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="">
       <Navbar />
