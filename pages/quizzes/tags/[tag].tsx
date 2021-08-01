@@ -7,6 +7,7 @@ import { QuizList } from '../../../components/quizList';
 import { Quiz } from '../../../types/types';
 import { gql } from '@apollo/client';
 import { client } from '../../_app';
+import { Footer } from '../../../components/footer';
 
 interface Params extends ParsedUrlQuery {
   tag: string;
@@ -77,14 +78,21 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async ({ params
 const TagQuizListPage: NextPage<PageProps> = ({ tag, quizList }) => {
   const router = useRouter();
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return <div>Fallback...</div>;
   }
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <h2>{tag}</h2>
-      <QuizList quizzesProp={quizList} />
+      <h1 className="h-16 text-2xl font-semibold flex justify-center items-center bg-white text-gray-800 tracking-widest shadow">
+        {tag}
+      </h1>
+      <div className="flex flex-col items-center flex-grow ">
+        <div className="w-full max-w-screen-md">
+          <QuizList quizzesProp={quizList} />
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { ApolloQueryResult, gql } from '@apollo/client';
+import { ApolloQueryResult, gql, useQuery } from '@apollo/client';
 import { client } from '../pages/_app';
 import { Exam } from '../types/types';
 
@@ -16,6 +16,10 @@ export const queryExams = async (): Promise<ApolloQueryResult<{ exams: Exam[] }>
   return await client.query<{ exams: Exam[] }>({
     query: EXAMS_QUERY,
   });
+};
+
+export const useQueryExams = () => {
+  return useQuery<{ exams: Exam[] }>(EXAMS_QUERY);
 };
 
 const EXAM_SLUG_QUERY = gql`
